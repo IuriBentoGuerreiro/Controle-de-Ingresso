@@ -1,9 +1,7 @@
 package com.api.ingresso.Repository;
 
-import com.api.ingresso.Model.IngressoModel;
+import com.api.ingresso.Model.Ingresso;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.UUID;
-
-public interface IngressoRepository extends JpaRepository <IngressoModel, Long> {
+public interface IngressoRepository extends JpaRepository <Ingresso, Long> {
 }

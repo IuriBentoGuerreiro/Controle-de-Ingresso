@@ -1,45 +1,36 @@
 package com.api.ingresso.Controller;
 
-import com.api.ingresso.Model.IngressoModel;
+import com.api.ingresso.Model.Ingresso;
 import com.api.ingresso.Service.IngressoService;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping ("/ingresso")
 @RestController
-@Data
 public class IngressoController {
 
-        private IngressoService ingressoService;
-        @Autowired
-        public IngressoController(IngressoService ingressoService){
-            this.ingressoService = ingressoService;
-        }
+    @Autowired
+    private IngressoService ingressoService;
+
 
     @PostMapping
-    public IngressoModel criarIngresso(@RequestBody IngressoModel criarIngresso){
-        criarIngresso.setData(LocalDateTime.now());
-        IngressoModel ingressoModel = ingressoService.criarIngresso(criarIngresso);
-        return new ResponseEntity<>(ingressoModel, HttpStatus.CREATED).getBody();
+    public ResponseEntity<Ingresso> salvar(@RequestBody Ingresso ingresso){
+        Ingresso ingressoSalvo = ingressoService.salvar(ingresso);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ingressoSalvo);
     }
 
     @GetMapping
-    public ResponseEntity<List<IngressoModel>> listarIngressos() {
-        List<IngressoModel> ingressos = ingressoService.listarIngressos();
-        return new ResponseEntity<>(ingressos, HttpStatus.OK);
+    public List<Ingresso> listar() {
+        return ingressoService.listar();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<IngressoModel> encontrarIngresso(@PathVariable Long id) {
-        Optional<IngressoModel> ingresso = ingressoService.encontrarIngresso(id);
-        return ingresso.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<Ingresso> encontrarIngresso(@PathVariable Long id) {
+        Ingresso ingresso = ingressoService.pegarPorId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(ingresso);
     }
 }
