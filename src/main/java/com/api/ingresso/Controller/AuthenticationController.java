@@ -1,8 +1,10 @@
 package com.api.ingresso.Controller;
 
 import com.api.ingresso.Model.AuthenticationDTO;
+import com.api.ingresso.Model.LoginResponseDTO;
 import com.api.ingresso.Model.RegisterDTO;
 import com.api.ingresso.Repository.UserRepository;
+import com.api.ingresso.infra.security.TokenService;
 import com.api.ingresso.user.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -29,7 +34,8 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var UsernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(UsernamePassword);
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
