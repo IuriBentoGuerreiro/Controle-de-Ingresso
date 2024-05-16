@@ -1,8 +1,8 @@
 package com.api.ingresso.Controller;
 
-import com.api.ingresso.Model.AuthenticationDTO;
-import com.api.ingresso.Model.LoginResponseDTO;
-import com.api.ingresso.Model.RegisterDTO;
+import com.api.ingresso.dto.AuthenticationDTO;
+import com.api.ingresso.dto.LoginResponseDTO;
+import com.api.ingresso.dto.RegisterDTO;
 import com.api.ingresso.Repository.UserRepository;
 import com.api.ingresso.infra.security.TokenService;
 import com.api.ingresso.user.User;

@@ -1,4 +1,4 @@
-package com.api.ingresso.Model;
+package com.api.ingresso.dto;
 
 import com.api.ingresso.user.UserRole;
 
